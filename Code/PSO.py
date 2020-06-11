@@ -22,7 +22,7 @@ def Calculate_fitness(X, fitness_i, Num_Particles, pbest_pos_i, pbest_val_i, gbe
             pbest_val_i[p] = fitness_i[p]
             pbest_pos_i[p] = X[p]
 
-    return gbest_val, gbest_pos, pbest_pos_i, pbest_val_i, fitness_i
+    return fitness_i, gbest_val, gbest_pos, pbest_pos_i, pbest_val_i
 
 
 def initial_velocity(Num_Particles, Num_dimensions, vMin, vMax):
@@ -74,14 +74,14 @@ def PSO():
     # initialization of all parameters
     Num_Iterations = 50      # number of iterations to be performed
     Num_Particles = 25       # number of particles in search space
-    Num_dimensions = 5      # variables in function
+    Num_dimensions = 5       # variables in function
     w = 0                    # constant weight inertia to vary the velocity in each iteration
     # lower and upper bound of weight inertia to increase or decrease velocity in search space
     wMin, wMax = 0.5, 0.9
-    c1 = 1                    # cognitive/individual constant parameter
-    c2 = 2                    # social constant parameter
-    xMin, xMax = -50, 50       # lower and upper bound of search space
-    vMin, vMax = -12.5, 12.5   # initial lower and upper bound of velocity
+    c1 = 1                   # cognitive/individual constant parameter
+    c2 = 2                   # social constant parameter
+    xMin, xMax = -50, 50     # lower and upper bound of search space
+    vMin, vMax = -12.5, 12.5  # initial lower and upper bound of velocity
     gbest_val = 1000000  # setting global best value of swarm to infinity
     # setting personal best value for each particle
     pbest_val_i = [1000000 for i in range(Num_Particles)]
