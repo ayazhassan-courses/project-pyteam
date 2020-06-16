@@ -2,6 +2,11 @@ import random
 import math
 
 # fitness function
+# def cube(x):
+#     fitness = 0
+#     for i in range(len(x)):
+#         fitness += x[i]**3
+#     return fitness
 
 
 def sphere(x):
@@ -102,8 +107,8 @@ def PSO():
         fitness_i, gbest_val, gbest_pos, pbest_pos_i, pbest_val_i = Calculate_fitness(
             X, fitness_i, Num_Particles, pbest_pos_i, pbest_val_i, gbest_pos, gbest_val)
         w = (random.uniform(0.4, 0.9)/Num_Iterations)*i
-        V = update_velocity(X, V, Num_Particles, Num_dimensions, i,
-                            w, vMin, vMax, pbest_pos_i, gbest_pos, c1, c2)
+        V = update_velocity(X, V, Num_Particles, Num_dimensions,
+                            i, w, vMin, vMax, pbest_pos_i, gbest_pos, c1, c2)
         i += 1
     print("Global Best Value: {}".format(gbest_val))
 
