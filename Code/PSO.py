@@ -1,14 +1,18 @@
 import random
 import math
 
-# fitness function
-# def cube(x):
-#     fitness = 0
+# Test Cae # 1: fitness function of the swarm which has to be optimized
+# def rastrigin(x):
+#     A=10
+#     n=len(x)
+#     fitness=A*n
 #     for i in range(len(x)):
-#         fitness += x[i]**3
+#         fitness+=x[i]**2 - (A * math.cos(2 * math.pi * x[i]))
 #     return fitness
 
-# fitness function of the swarm which has to be optimized
+# Test Case # 2: fitness function of the swarm which has to be optimized
+
+
 def sphere(x):
     fitness = 0
     for i in range(len(x)):
@@ -16,14 +20,18 @@ def sphere(x):
     return fitness
 
 # function to update the fitness value of every particle in each iteration
+
+
 def Calculate_fitness(X, fitness_i, Num_Particles):
     for p in range(Num_Particles):
         fitness_i[p] = sphere(X[p])
     return fitness_i
 
 # function to update the personal best of each particle and global best value of entire swarm
-def update_pbest_and_gbest(X,fitness_i,Num_particles,gbest_val, gbest_pos, pbest_pos_i, pbest_val_i):
-    for p in range (Num_particles):
+
+
+def update_pbest_and_gbest(X, fitness_i, Num_particles, gbest_val, gbest_pos, pbest_pos_i, pbest_val_i):
+    for p in range(Num_particles):
         # updates the global best
         if fitness_i[p] < gbest_val:
             gbest_val = fitness_i[p]
@@ -33,6 +41,7 @@ def update_pbest_and_gbest(X,fitness_i,Num_particles,gbest_val, gbest_pos, pbest
             pbest_val_i[p] = fitness_i[p]
             pbest_pos_i[p] = X[p]
     return gbest_val, gbest_pos, pbest_pos_i, pbest_val_i
+
 
 def initial_velocity(Num_Particles, Num_dimensions, vMin, vMax):
     V = []      # list containing velocity of each particle in n dimensions
@@ -54,13 +63,17 @@ def initial_position(Num_Particles, Num_dimensions, xMin, xMax):
     return X
 
 # function to update the velocity of each particle
+
+
 def update_velocity(X, V, Num_Particles, Num_dimensions, i, w, vMin, vMax, pbest_pos_i, gbest_pos, c1, c2):
     for p in range(Num_Particles):
         for i in range(Num_dimensions):
             r1 = random.random()
             r2 = random.random()
             # equation to calculate new velocity of particle for next iteration
-            V[p][i]= w *V[p][i] +(r1*c1*(pbest_pos_i[p][i] - X[p][i])) +(r2*c2 * (gbest_pos[i] - X[p][i]))
+            V[p][i] = w * V[p][i] + \
+                (r1*c1*(pbest_pos_i[p][i] - X[p][i])) + \
+                (r2*c2 * (gbest_pos[i] - X[p][i]))
             if V[p][i] > vMax:
                 V[p][i] = vMax
             elif V[p][i] < vMin:
@@ -68,6 +81,8 @@ def update_velocity(X, V, Num_Particles, Num_dimensions, i, w, vMin, vMax, pbest
     return V
 
 # function to update the position of each particle
+
+
 def update_position(X, Num_Particles, Num_dimensions, xMin, xMax, V):
     for p in range(0, Num_Particles):
         for i in range(0, Num_dimensions):
@@ -80,6 +95,8 @@ def update_position(X, Num_Particles, Num_dimensions, xMin, xMax, V):
     return X
 
 #  Main PSO() functions that calls other helper functions and handles initialization and updations
+
+
 def PSO():
     # initialization of all parameters
     Num_Iterations = 50     # number of iterations in search space
@@ -93,7 +110,7 @@ def PSO():
     vMin, vMax = 0, 15         # initial lower and upper bound of velocity
 
     # setting global best value of swarm to infinity
-    gbest_val = float('inf')  
+    gbest_val = float('inf')
     # setting personal best value for each particle
     pbest_val_i = [float('inf') for i in range(Num_Particles)]
     # personal best position of each particle in each dimension
@@ -120,21 +137,23 @@ def PSO():
         #  In the referenced code, updation of fitness,gbest, and pbest
         #  was done by the same function,updateFitness(), while our code does it
         #  using two separate function: Calculate_fitness() and update_pbest_and_gbest()
-        fitness_i= Calculate_fitness(X, fitness_i, Num_Particles)
+        fitness_i = Calculate_fitness(X, fitness_i, Num_Particles)
 
         # updates personal best of each particle and global best value of the swarm
-        gbest_val, gbest_pos, pbest_pos_i, pbest_val_i = update_pbest_and_gbest(X, fitness_i, Num_Particles, 
-                                                            gbest_val, gbest_pos, pbest_pos_i, pbest_val_i)
+        gbest_val, gbest_pos, pbest_pos_i, pbest_val_i = update_pbest_and_gbest(X, fitness_i, Num_Particles,
+                                                                                gbest_val, gbest_pos, pbest_pos_i, pbest_val_i)
 
-        # evaluates the new value for inertia weight, which mainly depends on 
-        # the random float value generated between 0.4 and 0.9. 
+        # evaluates the new value for inertia weight, which mainly depends on
+        # the random float value generated between 0.4 and 0.9.
         # Note:
-        # In the reference code, w was being updated using different approach 
+        # In the reference code, w was being updated using different approach
         w = (random.uniform(0.4, 0.9)/Num_Iterations)*i
         V = update_velocity(X, V, Num_Particles, Num_dimensions,
                             i, w, vMin, vMax, pbest_pos_i, gbest_pos, c1, c2)
         i += 1
     print("Global Best Value: {}".format(gbest_val))
+
+
 PSO()
 
 # Code Reference:
