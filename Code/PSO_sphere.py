@@ -55,7 +55,7 @@ def initial_position(Num_Particles, Num_dimensions, xMin, xMax):
 # function to update the velocity of each particle
 
 
-def update_velocity(X, V, Num_Particles, Num_dimensions, i, w, vMin, vMax, pbest_pos_i, gbest_pos, c1, c2):
+def update_velocity(X, V, Num_Particles, Num_dimensions, w, vMin, vMax, pbest_pos_i, gbest_pos, c1, c2):
     for p in range(Num_Particles):
         for i in range(Num_dimensions):
             # random number genration strategy is different from the referenced code
@@ -128,7 +128,7 @@ def PSO(Num_Iterations, Num_Particles,Num_dimensions):
                                                                                 gbest_val, gbest_pos, pbest_pos_i, pbest_val_i)
 
         V = update_velocity(X, V, Num_Particles, Num_dimensions,
-                            i, w, vMin, vMax, pbest_pos_i, gbest_pos, c1, c2)
+                            w, vMin, vMax, pbest_pos_i, gbest_pos, c1, c2)
         i += 1
     print("Global Best Value: {}".format(gbest_val))
     print("Global Best Position: {}".format(gbest_pos))
