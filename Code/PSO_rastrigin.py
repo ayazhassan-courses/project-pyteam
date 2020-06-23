@@ -1,6 +1,7 @@
 import random
 import math
-
+import csv
+from datetime import datetime
 
 # Test function 2: fitness function of the swarm which has to be optimized (minimized)
 
@@ -86,11 +87,8 @@ def update_position(X, Num_Particles, Num_dimensions, xMin, xMax, V):
 #  Main PSO() functions that calls other helper functions and handles initialization and updations
 
 
-def PSO():
+def PSO(Num_Iterations, Num_Particles, Num_dimensions):
     # initialization of all parameters
-    Num_Iterations = 100     # number of iterations in search space
-    Num_Particles = 10       # number of particles to be performed
-    Num_dimensions = 2       # input dimensions in function (x1,x2,x3....)
     # note: the referenced code randomly updated inertia in iterating loop. In this code it will remain constant.
     w = 0.9                  # constant weight inertia
     c1 = 0.5                 # cognitive/individual constant parameter
@@ -138,7 +136,33 @@ def PSO():
     print("Global Best Value: {}".format(gbest_val))
     print("Global Best Position: {}".format(gbest_pos))
 
-PSO()
+def LoadData(filename):
+    with open(filename) as csvfile:
+        # loading the test value file
+        readCSV = csv.reader(csvfile, delimiter = ",")
+        for i in readCSV:
+            runtime=[]
+            variable=i[0]
+            i=i[1:]
+            print('----------------------Testing on different',variable + '------------------------' )
+            for n in i:
+                if variable=='Num_Iterations':
+                    start=datetime.now()
+                    PSO(int(n) , 20 , 2)
+                    runtime.append(datetime.now()-start)
+                elif variable=='Num_Particles':
+                    start=datetime.now()
+                    PSO(50 , int(n) , 2)
+                    runtime.append(datetime.now()-start)
+                elif variable=='Num_dimensions':
+                    start=datetime.now()
+                    PSO(50 , 20 , int(n))
+                    # print(datetime.now()-start)
+                    runtime.append(datetime.now()-start)
+            print(runtime)
+            print()
+    csvfile.close()
+LoadData("TestValues.csv")
 
 # Code Reference:
 # https://github.com/rgreen13/PSO-Python.git

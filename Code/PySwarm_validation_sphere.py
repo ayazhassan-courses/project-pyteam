@@ -9,24 +9,23 @@ from pyswarms.utils.plotters import (plot_cost_history, plot_contour, plot_surfa
 
 import csv
 
-# Set-up hyperparameters
-
-# Call instance of PSO
 
 def LoadData(filename):
     with open(filename) as csvfile:
+        # loading the test value file
         readCSV = csv.reader(csvfile, delimiter = ",")
+        # setting hyperparameters 
         max_bound = 5.12 * np.ones(2)
-        # print(max_bound)
         min_bound = - max_bound
-        # print(min_bound)
         bounds = (min_bound, max_bound)
         velocity_clamp=(0, 15)
 
         options = {'c1': 0.5, 'c2': 0.3, 'w':0.9}
+        # looping over different set of values
         for i in readCSV:
+            # first variable is the indicator of the values in the list
             variable= i[0]
-            print('--------------------Testing on different',variable + '----------------------' )
+            print('----------------------Testing on different',variable + '------------------------' )
             i=i[1:]
             for n in i:
                 if variable=='Num_Iterations':
