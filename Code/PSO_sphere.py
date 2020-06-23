@@ -1,17 +1,8 @@
 import random
 import math
 
-# Test Cae # 1: fitness function of the swarm which has to be optimized
-# def rastrigin(x):
-#     A=10
-#     n=len(x)
-#     fitness=A*n
-#     for i in range(len(x)):
-#         fitness+=x[i]**2 - (A * math.cos(2 * math.pi * x[i]))
-#     return fitness
 
-# Test Case # 2: fitness function of the swarm which has to be optimized
-
+# Test function 1: fitness function of the swarm which has to be optimized (minimized)
 
 def sphere(x):
     fitness = 0
@@ -20,7 +11,6 @@ def sphere(x):
     return fitness
 
 # function to update the fitness value of every particle in each iteration
-
 
 def Calculate_fitness(X, fitness_i, Num_Particles):
     for p in range(Num_Particles):
@@ -48,7 +38,7 @@ def initial_velocity(Num_Particles, Num_dimensions, vMin, vMax):
     for p in range(Num_Particles):
         temp_V = []
         for i in range(Num_dimensions):
-            temp_V.append(vMin + random.random()*(vMax-vMin))
+            temp_V.append(random.uniform(vMin,vMax))
         V.append(temp_V)
     return V
 
@@ -58,7 +48,7 @@ def initial_position(Num_Particles, Num_dimensions, xMin, xMax):
     for p in range(Num_Particles):
         temp_X = []
         for i in range(Num_dimensions):
-            temp_X.append(xMin + random.random()*(xMax-xMin))
+            temp_X.append(random.uniform(xMin,xMax))
         X.append(temp_X)
     return X
 
@@ -68,16 +58,14 @@ def initial_position(Num_Particles, Num_dimensions, xMin, xMax):
 def update_velocity(X, V, Num_Particles, Num_dimensions, i, w, vMin, vMax, pbest_pos_i, gbest_pos, c1, c2):
     for p in range(Num_Particles):
         for i in range(Num_dimensions):
-            r1 = random.random()
-            r2 = random.random()
+            # random number genration strategy is different from the referenced code
+            r1 = random.uniform(0,1)
+            r2 = random.uniform(0,1)
             # equation to calculate new velocity of particle for next iteration
-            V[p][i] = w * V[p][i] + \
-                (r1*c1*(pbest_pos_i[p][i] - X[p][i])) + \
-                (r2*c2 * (gbest_pos[i] - X[p][i]))
-            if V[p][i] > vMax:
-                V[p][i] = vMax
-            elif V[p][i] < vMin:
-                V[p][i] = vMin
+            V[p][i] = w * V[p][i] + (r1*c1*(pbest_pos_i[p][i] - X[p][i])) + (r2*c2 * (gbest_pos[i] - X[p][i]))
+            # strategy of controlling the out of bound velocity is different from referenced code
+            if V[p][i] > vMax or V[p][i] < vMin:
+                V[p][i] = random.uniform(vMin,vMax)
     return V
 
 # function to update the position of each particle
@@ -88,10 +76,9 @@ def update_position(X, Num_Particles, Num_dimensions, xMin, xMax, V):
         for i in range(0, Num_dimensions):
             # calculates the new position of particle
             X[p][i] = X[p][i] + V[p][i]
-            if X[p][i] > xMax:
-                X[p][i] = xMax
-            if X[p][i] < xMin:
-                X[p][i] = xMin
+            # strategy of controlling the out of bound position is different from referenced code
+            if X[p][i] > xMax or X[p][i] < xMin:
+                X[p][i] = random.uniform(xMin,xMax)
     return X
 
 #  Main PSO() functions that calls other helper functions and handles initialization and updations
@@ -99,13 +86,13 @@ def update_position(X, Num_Particles, Num_dimensions, xMin, xMax, V):
 
 def PSO():
     # initialization of all parameters
-    Num_Iterations = 50     # number of iterations in search space
-    Num_Particles = 40      # number of particles to be performed
-    Num_dimensions = 2      # input dimensions in function (x1,x2,x3....)
-    w = 0                   # constant weight inertia to vary the velocity in each iteration
-    # increase or decrease velocity in search space
+    Num_Iterations = 100     # number of iterations in search space
+    Num_Particles = 10       # number of particles to be performed
+    Num_dimensions = 2       # input dimensions in function (x1,x2,x3....)
+    # note: the referenced code randomly updated inertia in iterating loop. In this code it will remain constant.
+    w = 0.9                  # constant weight inertia
     c1 = 0.5                 # cognitive/individual constant parameter
-    c2 = 0.9                 # social constant parameter
+    c2 = 0.3                 # social constant parameter
     xMin, xMax = -5.12, 5.12   # lower and upper bound of search space
     vMin, vMax = 0, 15         # initial lower and upper bound of velocity
 
@@ -143,16 +130,11 @@ def PSO():
         gbest_val, gbest_pos, pbest_pos_i, pbest_val_i = update_pbest_and_gbest(X, fitness_i, Num_Particles,
                                                                                 gbest_val, gbest_pos, pbest_pos_i, pbest_val_i)
 
-        # evaluates the new value for inertia weight, which mainly depends on
-        # the random float value generated between 0.4 and 0.9.
-        # Note:
-        # In the reference code, w was being updated using different approach
-        w = (random.uniform(0.4, 0.9)/Num_Iterations)*i
         V = update_velocity(X, V, Num_Particles, Num_dimensions,
                             i, w, vMin, vMax, pbest_pos_i, gbest_pos, c1, c2)
         i += 1
     print("Global Best Value: {}".format(gbest_val))
-
+    print("Global Best Position: {}".format(gbest_pos))
 
 PSO()
 
