@@ -29,14 +29,17 @@ def LoadData(filename):
             i=i[1:]
             for n in i:
                 if variable=='Num_Iterations':
+                    # optimizes function on different numver of iterations
                     optimizer = ps.single.GlobalBestPSO(n_particles=20 , dimensions=2, options=options, 
                                                         bounds=bounds, velocity_clamp=velocity_clamp)
                     cost, pos = optimizer.optimize(fx.sphere, iters=int(n))
                 elif variable=='Num_Particles':
+                    # optimizes function on different numver of particles
                     optimizer = ps.single.GlobalBestPSO(n_particles=int(n) , dimensions=2, options=options,
                                                         bounds=bounds, velocity_clamp=velocity_clamp)
                     cost, pos = optimizer.optimize(fx.sphere, iters=50)
                 elif variable=='Num_dimensions':
+                    # optimizes function on different numver of dimensions
                     max_bound= 5.12* np.ones(int(n))
                     min_bound= -max_bound
                     bounds=(min_bound,max_bound)

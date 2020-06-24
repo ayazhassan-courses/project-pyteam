@@ -133,29 +133,30 @@ def PSO(Num_Iterations, Num_Particles,Num_dimensions):
     print("Global Best Value: {}".format(gbest_val))
     print("Global Best Position: {}".format(gbest_pos))
 
+#  This function loads data in the file TEST VALUES and passes it to PSO function
 def LoadData(filename):
     with open(filename) as csvfile:
         # loading the test value file
         readCSV = csv.reader(csvfile, delimiter = ",")
         for i in readCSV:
-            runtime=[]
+            # runtime=[]
             variable=i[0]
             i=i[1:]
             print('----------------------Testing on different',variable + '------------------------' )
             for n in i:
                 if variable=='Num_Iterations':
-                    start=datetime.now()
+                    # start=datetime.now()
                     PSO(int(n) , 20 , 2)
-                    runtime.append(datetime.now()-start)
+                    # runtime.append(datetime.now()-start)
                 elif variable=='Num_Particles':
-                    start=datetime.now()
+                    # start=datetime.now()
                     PSO(50 , int(n) , 2)
-                    runtime.append(datetime.now()-start)
+                    # runtime.append(datetime.now()-start)
                 elif variable=='Num_dimensions':
-                    start=datetime.now()
+                    # start=datetime.now()
                     PSO(50 , 20 , int(n))
-                    runtime.append(datetime.now()-start)
-            print(runtime)
+                    # runtime.append(datetime.now()-start)
+            # print(runtime)
             print()
     csvfile.close()
 LoadData("TestValues.csv")
