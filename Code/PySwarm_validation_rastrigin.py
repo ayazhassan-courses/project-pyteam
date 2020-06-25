@@ -1,11 +1,11 @@
 # Import modules
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import numpy as np
 # from IPython.display import Image
 # Import PySwarms
 import pyswarms as ps
 from pyswarms.utils.functions import single_obj as fx
-from pyswarms.utils.plotters import (plot_cost_history, plot_contour, plot_surface)
+# from pyswarms.utils.plotters import (plot_cost_history, plot_contour, plot_surface)
 
 import csv
 
