@@ -13,40 +13,45 @@ import csv
 
 # Call instance of PSO
 
+
 def LoadData(filename):
     with open(filename) as csvfile:
-        readCSV = csv.reader(csvfile, delimiter = ",")
+        readCSV = csv.reader(csvfile, delimiter=",")
         max_bound = 5.12 * np.ones(2)
         # print(max_bound)
         min_bound = - max_bound
         # print(min_bound)
         bounds = (min_bound, max_bound)
-        velocity_clamp=(0, 15)
+        velocity_clamp = (0, 15)
 
-        options = {'c1': 0.5, 'c2': 0.3, 'w':0.9}
+        options = {'c1': 0.5, 'c2': 0.3, 'w': 0.9}
         for i in readCSV:
-            variable= i[0]
-            print('--------------------Testing on different',variable + '------------------' )
-            i=i[1:]
+            variable = i[0]
+            print('--------------------Testing on different',
+                  variable + '------------------')
+            i = i[1:]
             for n in i:
-                if variable=='Num_Iterations':
+                if variable == 'Num_Iterations':
                     # optimizes function on different numver of iterations
-                    optimizer = ps.single.GlobalBestPSO(n_particles=20 , dimensions=2, options=options, bounds=bounds, velocity_clamp=velocity_clamp)
+                    optimizer = ps.single.GlobalBestPSO(
+                        n_particles=20, dimensions=2, options=options, bounds=bounds, velocity_clamp=velocity_clamp)
                     cost, pos = optimizer.optimize(fx.rastrigin, iters=int(n))
-                elif variable=='Num_Particles':
+                elif variable == 'Num_Particles':
                     # optimizes function on different numver of particles
-                    optimizer = ps.single.GlobalBestPSO(n_particles=int(n) , dimensions=2, options=options, bounds=bounds, velocity_clamp=velocity_clamp)
+                    optimizer = ps.single.GlobalBestPSO(n_particles=int(
+                        n), dimensions=2, options=options, bounds=bounds, velocity_clamp=velocity_clamp)
                     cost, pos = optimizer.optimize(fx.rastrigin, iters=50)
-                elif variable=='Num_dimensions':
+                elif variable == 'Num_dimensions':
                     # optimizes function on different numver of dimensions
-                    max_bound= 5.12* np.ones(int(n))
-                    min_bound= -max_bound
-                    bounds=(min_bound,max_bound)
-                    optimizer = ps.single.GlobalBestPSO(n_particles=20 , dimensions=int(n), options=options, bounds=bounds, velocity_clamp=velocity_clamp)
+                    max_bound = 5.12 * np.ones(int(n))
+                    min_bound = -max_bound
+                    bounds = (min_bound, max_bound)
+                    optimizer = ps.single.GlobalBestPSO(n_particles=20, dimensions=int(
+                        n), options=options, bounds=bounds, velocity_clamp=velocity_clamp)
                     cost, pos = optimizer.optimize(fx.rastrigin, iters=50)
             print()
     csvfile.close()
+
+
 LoadData("TestValues.csv")
 # Perform optimization
-
-
