@@ -5,15 +5,17 @@ from datetime import datetime
 
 # Test function 2: fitness function of the swarm which has to be optimized (minimized)
 
+
 def rastrigin(x):
-    A=10
-    n=len(x)
+    A = 10
+    n = len(x)
     fitness = A*n
     for i in range(len(x)):
-        fitness += x[i]**2 - (A*math.cos(2*math.pi* x[i]))
+        fitness += x[i]**2 - (A*math.cos(2*math.pi * x[i]))
     return fitness
 
 # function to update the fitness value of every particle in each iteration
+
 
 def Calculate_fitness(X, fitness_i, Num_Particles):
     for p in range(Num_Particles):
@@ -41,7 +43,7 @@ def initial_velocity(Num_Particles, Num_dimensions, vMin, vMax):
     for p in range(Num_Particles):
         temp_V = []
         for i in range(Num_dimensions):
-            temp_V.append(random.uniform(vMin,vMax))
+            temp_V.append(random.uniform(vMin, vMax))
         V.append(temp_V)
     return V
 
@@ -51,7 +53,7 @@ def initial_position(Num_Particles, Num_dimensions, xMin, xMax):
     for p in range(Num_Particles):
         temp_X = []
         for i in range(Num_dimensions):
-            temp_X.append(random.uniform(xMin,xMax))
+            temp_X.append(random.uniform(xMin, xMax))
         X.append(temp_X)
     return X
 
@@ -62,13 +64,15 @@ def update_velocity(X, V, Num_Particles, Num_dimensions, w, vMin, vMax, pbest_po
     for p in range(Num_Particles):
         for i in range(Num_dimensions):
             # random number genration strategy is different from the referenced code
-            r1 = random.uniform(0,1)
-            r2 = random.uniform(0,1)
+            r1 = random.uniform(0, 1)
+            r2 = random.uniform(0, 1)
             # equation to calculate new velocity of particle for next iteration
-            V[p][i] = w * V[p][i] + (r1*c1*(pbest_pos_i[p][i] - X[p][i])) + (r2*c2 * (gbest_pos[i] - X[p][i]))
+            V[p][i] = w * V[p][i] + \
+                (r1*c1*(pbest_pos_i[p][i] - X[p][i])) + \
+                (r2*c2 * (gbest_pos[i] - X[p][i]))
             # strategy of controlling the out of bound velocity is different from referenced code
             if V[p][i] > vMax or V[p][i] < vMin:
-                V[p][i] = random.uniform(vMin,vMax)
+                V[p][i] = random.uniform(vMin, vMax)
     return V
 
 # function to update the position of each particle
@@ -81,7 +85,7 @@ def update_position(X, Num_Particles, Num_dimensions, xMin, xMax, V):
             X[p][i] = X[p][i] + V[p][i]
             # strategy of controlling the out of bound position is different from referenced code
             if X[p][i] > xMax or X[p][i] < xMin:
-                X[p][i] = random.uniform(xMin,xMax)
+                X[p][i] = random.uniform(xMin, xMax)
     return X
 
 #  Main PSO() functions that calls other helper functions and handles initialization and updations
@@ -141,16 +145,17 @@ def PSO(Num_Iterations, Num_Particles, Num_dimensions):
 def LoadData(filename):
     with open(filename) as csvfile:
         # loading the test value file
-        readCSV = csv.reader(csvfile, delimiter = ",")
+        readCSV = csv.reader(csvfile, delimiter=",")
         for i in readCSV:
             # runtime=[]
-            variable=i[0]
-            i=i[1:]
-            print('----------------------Testing on different',variable + '------------------------' )
+            variable = i[0]
+            i = i[1:]
+            print('----------------------Testing on different',
+                  variable + '------------------------')
             for n in i:
-                if variable=='Num_Iterations':
-                    # start=datetime.now()
-                    PSO(int(n) , 20 , 2)
+                if variable == 'Num_Iterations':
+                    # start = datetime.now()
+                    PSO(int(n), 20, 2)
                     # runtime.append(datetime.now()-start)
                 elif variable=='Num_Particles':
                     # start=datetime.now()
@@ -160,10 +165,12 @@ def LoadData(filename):
                     # start=datetime.now()
                     PSO(50 , 20 , int(n))
                     # print(datetime.now()-start)
-                    # runtime.append(datetime.now()-start)
+                    runtime.append(datetime.now()-start)
             # print(runtime)
             print()
     csvfile.close()
+
+
 LoadData("TestValues.csv")
 
 # Code Reference:
