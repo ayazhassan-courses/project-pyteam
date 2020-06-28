@@ -137,36 +137,44 @@ def PSO(Num_Iterations, Num_Particles, Num_dimensions):
         V = update_velocity(X, V, Num_Particles, Num_dimensions,
                             w, vMin, vMax, pbest_pos_i, gbest_pos, c1, c2)
         i += 1
-    print("Global Best Value: {}".format(gbest_val))
-    print("Global Best Position: {}".format(gbest_pos))
+    # print("Global Best Value: {}".format(gbest_val))
+    # print("Global Best Position: {}".format(gbest_pos))
 
 
 # This function loads data in the file TEST VALUES and passes it to PSO function
 def main():
     #  passing test values for varying number of dimensions
-    for i in range (2, 26):
-        runtime=[]
-        for j in range (0,10):
-            start=datetime.now()
-            PSO( 50 , 20 , i)
+    print('----------------Testing on different number of dimensions------------------')
+    for i in range(2, 26):
+        runtime = []
+        # checks 10 times for one value of dimensions
+        for j in range(0, 10):
+            start = datetime.now()
+            PSO(50, 20, i)
             runtime.append(datetime.now()-start)
         print(runtime)
     #  passing test values for varying number of iterations
-    for i in range (100, 3100, 100):
-        runtime=[]
-        for j in range (0,10):
-            start=datetime.now()
-            PSO( i , 20 , 2)
+    print('----------------Testing on different number of iterations------------------')
+    for i in range(100, 3100, 100):
+        runtime = []
+        # checks 10 times for one value of iteartions
+        for j in range(0, 10):
+            start = datetime.now()
+            PSO(i, 20, 2)
             runtime.append(datetime.now()-start)
         print(runtime)
     #  passing test values for varying number of particles
-    for i in range (10, 510, 10):
-        runtime=[]
-        for j in range (0,10):
-            start=datetime.now()
-            PSO( 50 , i , 2)
+    print('----------------Testing on different number of particles-----------------')
+    for i in range(10, 510, 10):
+        runtime = []
+        # checks 10 times for one value of particles
+        for j in range(0, 10):
+            start = datetime.now()
+            PSO(50, i, 2)
             runtime.append(datetime.now()-start)
         print(runtime)
+
+
 main()
 
 # Code Reference:
