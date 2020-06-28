@@ -134,32 +134,32 @@ def PSO(Num_Iterations, Num_Particles,Num_dimensions):
     print("Global Best Position: {}".format(gbest_pos))
 
 #  This function loads data in the file TEST VALUES and passes it to PSO function
-def LoadData(filename):
-    with open(filename) as csvfile:
-        # loading the test value file
-        readCSV = csv.reader(csvfile, delimiter = ",")
-        for i in readCSV:
-            # runtime=[]
-            variable=i[0]
-            i=i[1:]
-            print('----------------------Testing on different',variable + '------------------------' )
-            for n in i:
-                if variable=='Num_Iterations':
-                    # start=datetime.now()
-                    PSO(int(n) , 20 , 2)
-                    # runtime.append(datetime.now()-start)
-                elif variable=='Num_Particles':
-                    # start=datetime.now()
-                    PSO(50 , int(n) , 2)
-                    # runtime.append(datetime.now()-start)
-                elif variable=='Num_dimensions':
-                    # start=datetime.now()
-                    PSO(50 , 20 , int(n))
-                    # runtime.append(datetime.now()-start)
-            # print(runtime)
-            print()
-    csvfile.close()
-LoadData("TestValues.csv")
+def main():
+    #  passing test values for varying number of dimensions
+    for i in range (2, 26):
+        runtime=[]
+        for j in range (0,10):
+            start=datetime.now()
+            PSO( 50 , 20 , i)
+            runtime.append(datetime.now()-start)
+        print(runtime)
+    #  passing test values for varying number of iterations
+    for i in range (100, 3100, 100):
+        runtime=[]
+        for j in range (0,10):
+            start=datetime.now()
+            PSO( i , 20 , 2)
+            runtime.append(datetime.now()-start)
+        print(runtime)
+    #  passing test values for varying number of particles
+    for i in range (10, 510, 10):
+        runtime=[]
+        for j in range (0,10):
+            start=datetime.now()
+            PSO( 50 , i , 2)
+            runtime.append(datetime.now()-start)
+        print(runtime)
+main()
 
 # Code Reference:
 # https://github.com/rgreen13/PSO-Python.git
