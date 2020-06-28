@@ -20,6 +20,8 @@ optimizer = ps.single.GlobalBestPSO(n_particles=20, dimensions=2, options=option
 # optimizing
 optimizer.optimize(fx.rastrigin, 50)
 
+# THIS PART OF CODE HELPS IN VALIDATION OF OUR IMPLEMENTED PSO WITH PYSWARMS
+# 
 # for validation on basis of varying number of particles RANGE [10,500]
 # for K in range (10, 510, 10):
 #     runtime=[]
